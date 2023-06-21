@@ -17,31 +17,24 @@
 server:
   port: ${SERVER_PORT:8400}
 
-grpc:
-  server:
-    port: ${GRPC_SERVER_PORT:9400}
-  client:
-    dc3-center-auth:
-      enable-keep-alive: true
-      keep-alive-without-calls: true
-      negotiation-type: plaintext
-    dc3-center-data:
-      enable-keep-alive: true
-      keep-alive-without-calls: true
-      negotiation-type: plaintext
 
 spring:
   application:
     name: @project.artifactId@
-  profiles:
-    active:
-      - ${NODE_ENV:dev}
-  redis:
-    database: 2
+  group: ${user.name}
+  cloud:
+    nacos:
+      discovery:
+        group: ${spring.group}
+        watch-delay: 5000
+        namespace: ${DISCOVERY_NAMESPACE:}
+        server-addr: ${NACOS_HOST:dc3-center-register}:${NACOS_PORT:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${CONFIG_NAMESPACE:}
+  config:
+    import:
+      - optional:nacos:${spring.application.name}.yml
+      - optional:nacos:${spring.application.name}-dev.yml
 
-logging:
-  level:
-    io.github.pnoker: DEBUG
-    #io.github.pnoker.center.manager.service.rabbit: INFO
-  file:
-    name: dc3/logs/center/manager/${spring.application.name}.log
+

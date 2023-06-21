@@ -22,112 +22,21 @@ server:
       worker: 20
     buffer-size: 512
 
-grpc:
-  client:
-    dc3-center-auth:
-      enable-keep-alive: true
-      keep-alive-without-calls: true
-      negotiation-type: plaintext
-
 spring:
   application:
     name: @project.artifactId@
-  profiles:
-    active:
-      - ${NODE_ENV:dev}
-  transaction:
-    rollback-on-commit-failure: true
-  main:
-    allow-bean-definition-overriding: true
-  mvc:
-    throw-exception-if-no-handler-found: true
-  web:
-    resources:
-      add-mappings: false
-  redis:
-    database: 0
-  cache:
-    redis:
-      time-to-live: ${CACHE_REDIS_TIME_TO_LIVE:12H}
+  group: ${user.name}
   cloud:
-    gateway:
-      loadbalancer:
-        use404: true
+    nacos:
       discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
-      routes:
-        # auth token
-        - id: auth_route_token
-          uri: lb://dc3-center-auth
-          predicates:
-            - Path=/api/v3/auth/token/**
-          filters:
-            - StripPrefix=2
-            - name: RequestRateLimiter
-              args:
-                key-resolver: '#{@hostKeyResolver}'
-                redis-rate-limiter.replenishRate: 10
-                redis-rate-limiter.burstCapacity: 20
-            #- name: CircuitBreaker
-            # args:
-            #   name: default
-            #   fallbackUri: 'forward:/fallback'
-        # auth other
-        - id: auth_route_other
-          uri: lb://dc3-center-auth
-          predicates:
-            - Path=/api/v3/auth/user/**,/api/v3/auth/black_ip/**,/api/v3/auth/tenant/**,/api/v3/auth/dictionary/**
-          filters:
-            - StripPrefix=2
-            - Authentic
-            - name: RequestRateLimiter
-              args:
-                key-resolver: '#{@hostKeyResolver}'
-                redis-rate-limiter.replenishRate: 10
-                redis-rate-limiter.burstCapacity: 20
-            #- name: CircuitBreaker
-            # args:
-            #   name: default
-            #   fallbackUri: 'forward:/fallback'
-        # manager
-        - id: manager_route
-          uri: lb://dc3-center-manager
-          predicates:
-            - Path=/api/v3/manager/**
-          filters:
-            - StripPrefix=2
-            - Authentic
-            - name: RequestRateLimiter
-              args:
-                key-resolver: '#{@hostKeyResolver}'
-                redis-rate-limiter.replenishRate: 10
-                redis-rate-limiter.burstCapacity: 20
-            #- name: CircuitBreaker
-            # args:
-            #   name: default
-            #   fallbackUri: 'forward:/fallback'
-        # data
-        - id: data_route
-          uri: lb://dc3-center-data
-          predicates:
-            - Path=/api/v3/data/**
-          filters:
-            - StripPrefix=2
-            - Authentic
-            - name: RequestRateLimiter
-              args:
-                key-resolver: '#{@hostKeyResolver}'
-                redis-rate-limiter.replenishRate: 10
-                redis-rate-limiter.burstCapacity: 20
-            #- name: CircuitBreaker
-            # args:
-            #   name: default
-            #   fallbackUri: 'forward:/fallback'
-
-logging:
-  level:
-    io.github.pnoker: DEBUG
-  file:
-    name: dc3/logs/gateway/${spring.application.name}.log
+        group: ${spring.group}
+        watch-delay: 5000
+        namespace: ${DISCOVERY_NAMESPACE:}
+        server-addr: ${NACOS_HOST:dc3-center-register}:${NACOS_PORT:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${CONFIG_NAMESPACE:}
+  config:
+    import:
+      - optional:nacos:${spring.application.name}.yml
+      - optional:nacos:${spring.application.name}-dev.yml

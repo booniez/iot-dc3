@@ -28,6 +28,8 @@ import io.github.pnoker.common.model.UserLogin;
 import io.github.pnoker.common.valid.Insert;
 import io.github.pnoker.common.valid.Update;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +45,7 @@ import javax.validation.constraints.NotNull;
 @Slf4j
 @RestController
 @RequestMapping(AuthServiceConstant.USER_URL_PREFIX)
+@RefreshScope
 public class UserLoginController {
 
     @Resource
@@ -189,6 +192,19 @@ public class UserLoginController {
     public R<Boolean> checkLoginNameValid(@NotNull @PathVariable(value = "name") String name) {
         try {
             return Boolean.TRUE.equals(userLoginService.checkLoginNameValid(name)) ? R.ok() : R.fail();
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
+    }
+
+
+    @Value(value = "${spring.datasource.dynamic.datasource.master.url:}")
+    private String name;
+
+    @RequestMapping(value = "/get")
+    public R getConfig() {
+        try {
+            return R.ok(this.name);
         } catch (Exception e) {
             return R.fail(e.getMessage());
         }
