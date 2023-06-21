@@ -50,6 +50,12 @@
             <artifactId>dc3-driver-sdk</artifactId>
         </dependency>
 
+        <!-- Undertow Web 容器 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
     </dependencies>
 
     <repositories>

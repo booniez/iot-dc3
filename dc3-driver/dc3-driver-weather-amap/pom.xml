@@ -29,6 +29,10 @@
     <description>IOT DC3 平台 高德天气 驱动，仅用于测试用途。</description>
 
     <dependencies>
+        <dependency>
+            <groupId>io.github.pnoker</groupId>
+            <artifactId>dc3-starter-center-register-nacos-client</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

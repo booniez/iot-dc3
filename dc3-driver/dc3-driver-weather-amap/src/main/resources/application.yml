@@ -13,15 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-rpc:
-  server:
-    port: 9401
-  client:
-    dc3-center-auth:
-      enable-keep-alive: true
-      keep-alive-without-calls: true
-      negotiation-type: plaintext
-
+#rpc:
+#  server:
+#    port: 9401
+#  client:
+#    dc3-center-auth:
+#      enable-keep-alive: true
+#      keep-alive-without-calls: true
+#      negotiation-type: plaintext
 
 driver:
   tenant: default
@@ -57,12 +56,12 @@ driver:
       default-value: TAG
       remark: 指标类型
 
-spring:
-  application:
-    name: @project.artifactId@
-  profiles:
-    active:
-      - ${NODE_ENV:dev}
+#spring:
+#  application:
+#    name: @project.artifactId@
+#  profiles:
+#    active:
+#      - ${NODE_ENV:dev}
 
 logging:
   file:
@@ -70,21 +69,21 @@ logging:
 
 
 
-#spring:
-#  application:
-#    name: @project.artifactId@
-#  group: ${user.name}
-#  cloud:
-#    nacos:
-#      discovery:
-#        group: ${spring.group}
-#        watch-delay: 5000
-#        namespace: ${DISCOVERY_NAMESPACE:}
-#        server-addr: ${NACOS_HOST:dc3-center-register}:${NACOS_PORT:8848}
-#      config:
-#        server-addr: ${spring.cloud.nacos.discovery.server-addr}
-#        namespace: ${CONFIG_NAMESPACE:}
-#  config:
-#    import:
-#      - optional:nacos:${spring.application.name}.yml
-#      - optional:nacos:${spring.application.name}-dev.yml
+spring:
+  application:
+    name: @project.artifactId@
+  group: ${user.name}
+  cloud:
+    nacos:
+      discovery:
+        group: ${spring.group}
+        watch-delay: 5000
+        namespace: ${DISCOVERY_NAMESPACE:}
+        server-addr: ${NACOS_HOST:dc3-center-register}:${NACOS_PORT:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${CONFIG_NAMESPACE:}
+  config:
+    import:
+      - optional:nacos:${spring.application.name}.yml
+      - optional:nacos:${spring.application.name}-dev.yml
