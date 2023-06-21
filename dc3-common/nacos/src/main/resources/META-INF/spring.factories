@@ -1,0 +1,2 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  io.github.pnoker.center.register.client.config.ActiveRegisterProfileConfig

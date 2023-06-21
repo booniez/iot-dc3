@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>iot-dc3</artifactId>
+        <groupId>io.github.pnoker</groupId>
+        <version>2023.4.4</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <packaging>pom</packaging>
+    <modules>
+        <module>mysql</module>
+        <module>redis</module>
+        <module>mqtt</module>
+        <module>mongo</module>
+        <module>rabbitmq</module>
+        <module>quartz</module>
+        <module>driver</module>
+        <module>thread</module>
+        <module>web</module>
+        <module>nacos</module>
+        <module>influx</module>
+    </modules>
+
+    <artifactId>dc3-common</artifactId>
+
+    <dependencies>
+
+        <!-- gRpc Server + Client -->
+        <dependency>
+            <groupId>net.devh</groupId>
+            <artifactId>grpc-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- DC3 Center Register Client Starter -->
+<!--        <dependency>-->
+<!--            <groupId>io.github.pnoker</groupId>-->
+<!--            <artifactId>dc3-starter-center-register-nacos-client</artifactId>-->
+<!--        </dependency>-->
+
+        <!-- DC3 Common Web -->
+<!--        <dependency>-->
+<!--            <groupId>io.github.pnoker</groupId>-->
+<!--            <artifactId>dc3-common-web</artifactId>-->
+<!--        </dependency>-->
+
+        <!-- DC3 Common Thread -->
+<!--        <dependency>-->
+<!--            <groupId>io.github.pnoker</groupId>-->
+<!--            <artifactId>dc3-common-thread</artifactId>-->
+<!--        </dependency>-->
+
+        <!-- DC3 Common Log -->
+<!--        <dependency>-->
+<!--            <groupId>io.github.pnoker</groupId>-->
+<!--            <artifactId>dc3-common-log</artifactId>-->
+<!--        </dependency>-->
+
+        <!-- DC3 Common Model -->
+<!--        <dependency>-->
+<!--            <groupId>io.github.pnoker</groupId>-->
+<!--            <artifactId>dc3-common-model</artifactId>-->
+<!--        </dependency>-->
+
+    </dependencies>
+
+
+
+</project>
